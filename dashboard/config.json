@@ -1,0 +1,10 @@
+{
+  "challengeStartedAt": "2026-09-16",
+  "acceptedOnlyConfirmed": true,
+  "commitPolicies": {
+    "79c292580bd346958a1ba084d45beed64d62ef47": {
+      "mode": "undated",
+      "reason": "Explicit bulk import of 70 historical submissions; original completion dates are unavailable."
+    }
+  }
+}

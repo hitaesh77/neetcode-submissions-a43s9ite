@@ -1,0 +1,10 @@
+{
+  "lru-cache": {
+    "title": "LRU Cache",
+    "difficulty": "Medium",
+    "topics": null,
+    "links": {
+      "leetcode": "https://leetcode.com/problems/lru-cache/"
+    }
+  }
+}

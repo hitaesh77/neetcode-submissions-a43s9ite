@@ -1,0 +1,40 @@
+name: Publish NeetCode progress
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Data Structures & Algorithms/**'
+      - 'scripts/progress.py'
+      - 'scripts/publish_progress.py'
+      - 'tests/**'
+      - 'dashboard/config.json'
+      - 'dashboard/problems.json'
+      - '.github/workflows/progress.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: neetcode-dashboard-data
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Run focused tests
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: python3 -m unittest discover -s tests -v
+      - name: Generate and validate
+        run: python3 scripts/progress.py --require-accepted-only --output progress.json
+      - name: Publish without changing main
+        run: python3 scripts/publish_progress.py progress.json
