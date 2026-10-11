@@ -10,8 +10,8 @@ directory is a local build, not evidence that the public branch has been publish
 
 The checked-in example contains **107 submission identities across 56 problems**:
 37 dated submissions on 10 New York dates and 70 undated imported submissions.
-No identities were excluded entirely. Difficulty is verified for one problem;
-55 remain Unknown. With the configured September start, challenge completed days
+No identities were excluded entirely. All 56 problems have difficulty metadata
+from the NeetCode All catalog. With the configured September start, challenge completed days
 and both streak lengths are zero, and the last completed challenge date is null.
 
 ## Inspection and configuration
@@ -177,11 +177,33 @@ and `links` with separately verified `neetcode`/`leetcode` HTTPS URLs. Missing
 difficulty/topics remain null and unknown problems count under Unknown. Fallback
 titles are readable transformations of slugs, not verified official names.
 
-The initial LRU Cache title, Medium difficulty, and LeetCode URL were checked
-against [its official problem page](https://leetcode.com/problems/lru-cache/).
-Other metadata remains unknown. Do not infer LeetCode URLs from NeetCode slugs;
-this repository contains differing names such as `two-integer-sum` and
-`kth-largest-integer-in-a-stream`. Add links only after verifying the destination.
+The saved map contains all 973 problems from the public
+[NeetCode All page](https://neetcode.io/practice/practice/allNC), as retrieved on
+October 10, 2026 (New York). Titles, difficulties, categories, and links are parsed
+from the page's main JavaScript bundle. `metadata-source.json` records its source,
+retrieval time, and catalog totals. Categories become a one-element `topics` list.
+The parser uses the catalog's `ncLink` slug when available, matching sync folder
+names such as `two-integer-sum`; otherwise it uses the catalog's LeetCode link slug.
+LeetCode links come from the catalog's explicit `link` field, and NeetCode links
+are included only when `ncLink` is present. These are catalog-supplied links,
+not separate checks of every destination. All 56 current repository slugs match.
+
+Refresh the map deliberately when new problems are added or metadata changes:
+
+```sh
+python scripts/refresh_metadata.py
+python -m unittest discover -s tests -v
+python scripts/progress.py --require-accepted-only --output dashboard/progress.example.json
+```
+
+Review and commit `problems.json` and `metadata-source.json`. Pushing the map to
+main triggers snapshot regeneration, updating metadata for past submissions too.
+Submission workflows only read this saved map; they never scrape the website.
+An unseen problem stays Unknown until the map is refreshed. The refresh script
+does not execute downloaded JavaScript and rejects missing fields, duplicate IDs,
+invalid difficulty values, or removal of existing map IDs. If the website changes
+its bundle format, review the parser rather than replacing the map with guessed
+data. Offline parsing is supported with `--bundle-file` and `--bundle-url`.
 
 ## Browser consumption, verification, and recovery
 

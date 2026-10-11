@@ -7,6 +7,7 @@ on:
       - 'Data Structures & Algorithms/**'
       - 'scripts/progress.py'
       - 'scripts/publish_progress.py'
+      - 'scripts/refresh_metadata.py'
       - 'tests/**'
       - 'dashboard/config.json'
       - 'dashboard/problems.json'

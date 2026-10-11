@@ -1,0 +1,12 @@
+{
+  "sourcePage": "https://neetcode.io/practice/practice/allNC",
+  "sourceBundle": "https://neetcode.io/main.f39af0c52a4e9fb5.js",
+  "retrievedAt": "2026-10-11T01:10:39+00:00",
+  "problemCount": 973,
+  "difficultyCounts": {
+    "Medium": 600,
+    "Easy": 224,
+    "Hard": 149
+  },
+  "idMapping": "ncLink when present; otherwise the catalog's LeetCode link slug"
+}
